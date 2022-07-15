@@ -1,76 +1,88 @@
 let loading = document.getElementById('loading');
 let startBtn = document.getElementById('start-btn');
 let gameContainer = document.getElementById('game-container');
-const randomList = document.getElementById('random-number');
+let randomList = document.getElementById('random-number');
+let verifyContainer = document.getElementById('verify-container');
+let inputList = document.querySelectorAll('.input-number');
 const verifyBtn = document.getElementById('verify-btn');
+let timetTxt = document.getElementById('timer-txt');
+let resultTxt = document.getElementById('result-txt');
 
 setTimeout(function() {
-
     loading.style.display = 'none';
     startBtn.style.display = 'block';
-
 }, 1000);
 
 startBtn.addEventListener('click', function() {
-
     startBtn.style.display = 'none';
     gameContainer.style.display = 'block';
-
-});
-
-
-let clock = undefined;
-let timer = 5;
-if (clock == undefined && timer == 5) {
-    clock = setInterval(function() {
-
-    timer -= 1;
-
-    console.log(timer);
-
-    if (timer == 0) {
-        clearInterval(clock);
-        clock = undefined;
-    }
-    }, 1000);
-}
-
-
-
-
-
-
-let randomNumberArray = [];
-randomUniqueNumber(5, randomNumberArray, 1, 99);
-
-console.log(randomNumberArray)
-
-for (let i = 0; i < randomNumberArray.length; i++) {
-    let numberContainer = document.createElement('li');
-    numberContainer.append(randomNumberArray[i]);
-    randomList.append(numberContainer);
-}
-
-const inputList = document.querySelectorAll('.input-number');
-
-verifyBtn.addEventListener('click', function() {
-
-    let checkNumber = false;
-    let counterTrue = 0;
     for (let i = 0; i < inputList.length; i++) {
-        console.log(inputList[i].value)
-        if (randomNumberArray.includes(parseInt(inputList[i].value))) {
-            checkNumber = true;
-            counterTrue++;
+        inputList[i].value = '';
+    }
+
+
+
+    let randomNumberArray = [];
+    randomUniqueNumber(5, randomNumberArray, 1, 99);
+    for (let i = 0; i < randomNumberArray.length; i++) {
+        let numberContainer = document.createElement('li');
+        numberContainer.append(randomNumberArray[i]);
+        randomList.append(numberContainer);
+    }
+    console.log(randomNumberArray)
+
+
+
+    let clock = undefined;
+    let timer = 5;
+
+    timetTxt.innerHTML = `Memorizza i numeri ancora per ${timer} secondi.`;
+
+    if (clock == undefined && timer == 5) {
+        clock = setInterval(function() {
+        timer -= 1;
+
+        timetTxt.innerHTML = `Memorizza i numeri ancora per ${timer} secondi.`;
+
+        if (timer == 0) {
+            clearInterval(clock);
+            clock = undefined;
+            randomList.style.display = 'none';
+            verifyContainer.style.display = 'block';
+
+            timetTxt.innerHTML = `Prova a indovinare i numeri...`;
         }
+        }, 1000);
     }
-    if (checkNumber == true) {
-        console.log('ciaooo')
-        console.log(counterTrue)
-    } else {
-        console.log('nooo')
-    }
+
+
+
+    verifyBtn.addEventListener('click', function() {
+
+        let checkNumber = false;
+        let counterTrue = 0;
+        for (let i = 0; i < inputList.length; i++) {
+            if (randomNumberArray.includes(parseInt(inputList[i].value))) {
+                checkNumber = true;
+                counterTrue++;
+            }
+        }
+        if (checkNumber == true) {
+            if (counterTrue == 1) {
+                resultTxt.innerHTML = `Hai indovinato ${counterTrue} numero.`;
+            } else if (counterTrue == 5) {
+                resultTxt.innerHTML = `Congratulazioni, hai indovinato tutti i numeri!`;
+            } else {
+                resultTxt.innerHTML = `Hai indovinato ${counterTrue} numeri.`;
+            }
+        } else {
+            resultTxt.innerHTML = `Non hai indovinato nessun numero...`;
+        }
+    });
 });
+
+
+
 
 
 
