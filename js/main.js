@@ -5,13 +5,14 @@ let randomList = document.getElementById('random-number');
 let verifyContainer = document.getElementById('verify-container');
 let inputList = document.querySelectorAll('.input-number');
 const verifyBtn = document.getElementById('verify-btn');
-let timetTxt = document.getElementById('timer-txt');
+let mainTxt = document.getElementById('main-txt');
+let timeTxt = document.getElementById('timer-txt');
 let resultTxt = document.getElementById('result-txt');
 
 setTimeout(function() {
     loading.style.display = 'none';
     startBtn.style.display = 'block';
-}, 1000);
+}, 5000);
 
 startBtn.addEventListener('click', function() {
     startBtn.style.display = 'none';
@@ -20,10 +21,8 @@ startBtn.addEventListener('click', function() {
         inputList[i].value = '';
     }
 
-
-
     let randomNumberArray = [];
-    randomUniqueNumber(5, randomNumberArray, 1, 99);
+    randomUniqueNumber(5, randomNumberArray, 0, 99);
     for (let i = 0; i < randomNumberArray.length; i++) {
         let numberContainer = document.createElement('li');
         numberContainer.append(randomNumberArray[i]);
@@ -31,31 +30,30 @@ startBtn.addEventListener('click', function() {
     }
     console.log(randomNumberArray)
 
-
-
     let clock = undefined;
-    let timer = 5;
+    let timer = 30;
 
-    timetTxt.innerHTML = `Memorizza i numeri ancora per ${timer} secondi.`;
+    mainTxt.innerHTML = `Memorizza i numeri.`;
+    timeTxt.innerHTML = `Tempo rimanente: ${timer} s`;
 
-    if (clock == undefined && timer == 5) {
+    if (clock == undefined && timer == 30) {
         clock = setInterval(function() {
         timer -= 1;
 
-        timetTxt.innerHTML = `Memorizza i numeri ancora per ${timer} secondi.`;
-
+        timeTxt.innerHTML = `Tempo rimanente: ${timer} s`;
+        
         if (timer == 0) {
             clearInterval(clock);
             clock = undefined;
             randomList.style.display = 'none';
-            verifyContainer.style.display = 'block';
 
-            timetTxt.innerHTML = `Prova a indovinare i numeri...`;
+            timeTxt.innerHTML = '';
+            mainTxt.innerHTML = `Prova a indovinare i numeri...`;
+
+            verifyContainer.style.display = 'block';
         }
         }, 1000);
     }
-
-
 
     verifyBtn.addEventListener('click', function() {
 
@@ -80,11 +78,6 @@ startBtn.addEventListener('click', function() {
         }
     });
 });
-
-
-
-
-
 
 
 
