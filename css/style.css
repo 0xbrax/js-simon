@@ -198,6 +198,10 @@ ul li {
     line-height: 35px;
 }
 
+.check-input {
+    background-color: #adff2f;
+}
+
 #timer-txt {
     line-height: 26px;
 }
@@ -211,8 +215,9 @@ ul li {
 }
 
 #result-txt {
+    width: 400px;
     position: absolute;
-    bottom: -45px;
+    bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
 }
